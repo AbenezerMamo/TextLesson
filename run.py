@@ -29,8 +29,12 @@ def message_handling():
             elif body == 'english':
                 content = request_data('english', user['current_english'])
                 resp.message(content)
+            elif body == 'join':
+                sign_up = {'id': from_number}
+                r = requests.post("https://localhost:5000/api/user", data=sign_up)
             else:
                 return resp.message('Subject currently not supported!')
+                
     return str(resp)
 
 if __name__ == "__main__":
