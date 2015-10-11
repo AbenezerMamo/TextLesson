@@ -11,8 +11,7 @@ db = SQLAlchemy(app)
 class Lesson(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True)
     lesson_subject = db.Column(db.Text)
-    lesson_content = db.Column(db.Integer)
-    lesson_owner = db.Column(db.Text)
+    lesson_content = db.Column(db.Text)
 
 
 db.create_all()
