@@ -16,7 +16,7 @@ def request_data(subject, lesson_id):
 @app2.route("/", methods=['GET', 'POST'])
 def message_handling():
     resp = twilio.twiml.Response()
-    body = request.values.get('Body', None)
+    body = request.values.get('Body', None).lower()
     from_number = request.values.get('From', None)
     users = requests.get('http://9722c1ea.ngrok.io/api/user')
     user_data = users.json()
@@ -32,7 +32,7 @@ def message_handling():
                 content = request_data('english', user['current_english'])
                 resp.message(content)
             else:
-                return resp.message('Subject currently not supported!')
+                resp.message('Subject currently not supported!')
         else:
             headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
             sign_up = {'id': from_number}  # , 'current_math': 0, 'current_english': 0, 'current_science': 0}
