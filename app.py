@@ -11,9 +11,9 @@ db = SQLAlchemy(app)
 
 class User(db.Model):
     id = db.Column(db.Text, primary_key=True, unique=True)
-    current_math = db.Column(db.Integer, default=0)
-    current_english = db.Column(db.Integer, default=0)
-    current_science = db.Column(db.Integer, default=0)
+    current_math = db.Column(db.Integer)
+    current_english = db.Column(db.Integer)
+    current_science = db.Column(db.Integer)
 
 class Lesson(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True)
@@ -29,7 +29,5 @@ api_manager.create_api(User, methods=['GET', 'POST', 'DELETE', 'PUT'])
 api_manager.create_api(Lesson, methods=['GET', 'POST', 'DELETE', 'PUT'])
 
 
-
-
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True, port=3000)
