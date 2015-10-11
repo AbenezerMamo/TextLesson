@@ -2,7 +2,8 @@ from flask import Flask, request, redirect
 import twilio.twiml
 import requests
 
-app = Flask(__name__)
+app2 = Flask(__name__)
+
 
 def request_data(subject, lesson_id):
     r = requests.get('https://localhost:5000/api/lesson')
@@ -12,12 +13,14 @@ def request_data(subject, lesson_id):
             if subject['lesson_id'] == lesson_id:
                 return subject['lesson_content']
 
-@app.route("/", methods=['GET', 'POST'])
+
+@app2.route("/", methods=['GET', 'POST'])
 def message_handling():
     resp = twilio.twiml.Response()
     body = request.values.get('Body', None)
+    from_number = request.values.get('From', None)
     users = requests.get('https://localhost:5000/api/user')
-    user_data = r.json()
+    user_data = users.json()
     for user in user_data['objects']:
         if from_number in user.values():
             if body == 'math':
@@ -31,11 +34,11 @@ def message_handling():
                 resp.message(content)
             elif body == 'join':
                 sign_up = {'id': from_number}
-                r = requests.post("https://localhost:5000/api/user", data=sign_up)
+                requests.post("https://localhost:5000/api/user", data=sign_up)
             else:
                 return resp.message('Subject currently not supported!')
-                
+
     return str(resp)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app2.run(debug=True, port=3000)
